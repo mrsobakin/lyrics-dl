@@ -1,4 +1,5 @@
 from typing import Optional
+from pathlib import Path
 import traceback
 
 # Initialize classes from lyrics_dl/providers
@@ -53,3 +54,33 @@ class LyricsDl:
             self.logger.info(f"[{provider.name}] No lyrics was found!")
 
         return None
+
+    def process_file(self, path: Path, force: bool = False) -> None:
+        lyrics_path = path.with_suffix(".lrc")
+
+        if lyrics_path.exists() and not force:
+            self.logger.error("[lyrics-dl] Lyrics file already exists!")
+            return
+
+        # TODO handle errors
+        try:
+            song = Song.from_file(path)
+        except Exception as e:
+            self.logger.error(f"[lyrics-dl] {path}: {e}")
+            return
+
+        lyrics = self.fetch_lyrics(song)
+
+        if not lyrics:
+            self.logger.error("[lyrics-dl] No lyrics was found!")
+            return
+
+        with open(lyrics_path, "w") as f:
+            f.write(lyrics)
+
+    def process_directory(self, path: Path, extensions: list[str], force: bool = False) -> None:
+        for file_path in path.rglob("*"):
+            if file_path.suffix[1:] not in extensions:
+                continue
+
+            self.process_file(file_path, force)
