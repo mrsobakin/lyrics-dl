@@ -13,7 +13,7 @@ from lyrics_dl.registry import lyrics_provider
 
 KRC_ENCODE_KEY = [64, 71, 97, 119, 94, 50, 116, 71, 81, 54, 49, 45, 206, 210, 110, 105]
 
-RE_KRC_JUNK = re.compile(r"^\[((id|ar|ti|by|hash|al|sign|qq|total|language):|offset:0\]|.*\]<.*>?(Written by：|Lyrics by：|Composed by：|Producer：|作曲 :|作词 :)).*$")
+RE_KRC_JUNK = re.compile(r"^\[((id|ar|ti|by|hash|al|sign|qq|total|language):|offset:0\]|.*\](<.*>)?(Written by：|Lyrics by：|Composed by：|Producer：|作曲 :|作词 :)).*$")
 RE_WORD_TIMING = re.compile(r"<\d+,\d+,\d+>")
 
 
@@ -32,8 +32,6 @@ def reformat_timings(lines: Iterable[str]) -> Iterable[str]:
         if not line.startswith("["):
             yield line
             continue
-
-        line = RE_WORD_TIMING.sub("", line)
 
         raw_timings, text = line.split("]", 1)
         beginning, _ = map(int, raw_timings[1:].split(","))
@@ -75,6 +73,7 @@ class Kugou(AbstractProvider):
 
         krc = decode_krc(r["content"])
 
+        krc = RE_WORD_TIMING.sub("", krc)
         lines = reformat_timings(islice(filterfalse(RE_KRC_JUNK.match, krc.splitlines()), 1, None))
 
         return "\n".join(lines)
