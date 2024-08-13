@@ -117,6 +117,7 @@ As an example, to enable the `musixmatch` provider, you'll need to [acquire a Mu
 ```toml
 [providers]
 order = ["musixmatch", "kugou"]
+delay = 10  # Seconds to wait between searches
 
 [providers.musixmatch]
 token = "YOUR_TOKEN"

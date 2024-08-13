@@ -1,0 +1,6 @@
+[providers]
+order = ["musixmatch", "kugou"]
+delay = 10
+
+[providers.musixmatch]
+token = "123456"
