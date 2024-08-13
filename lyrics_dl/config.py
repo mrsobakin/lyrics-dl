@@ -1,7 +1,22 @@
-from typing import Self
-import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Self
+import os
+import tomllib
+
+from lyrics_dl.logger import DefaultLogger
+
+
+def _get_config_file() -> Path | None:
+    config_dir = os.environ.get("XDG_CONFIG_HOME")
+
+    if config_dir is None:
+        return None
+
+    return Path(config_dir) / "lyrics-dl" / "config.toml"
+
+
+CONFIG_PATH = _get_config_file()
 
 
 @dataclass
@@ -18,3 +33,16 @@ class LyricsDlConfig:
             order=config["providers"].pop("order"),
             providers_configs=config["providers"],
         )
+
+    @classmethod
+    def default(cls) -> Self:
+        try:
+            if CONFIG_PATH is not None:
+                return cls.from_file(CONFIG_PATH)
+        except FileNotFoundError:
+            DefaultLogger().warning(
+                f"Warning: Missing config file ({CONFIG_PATH})."
+                " Falling back to default parameters."
+            )
+
+        return cls()
