@@ -1,6 +1,7 @@
 [providers]
 order = ["musixmatch", "kugou"]
 delay = 10
+prepend_header = true
 
 [providers.musixmatch]
 token = "123456"

@@ -23,6 +23,7 @@ CONFIG_PATH = _get_config_file()
 class LyricsDlConfig:
     order: list[str] = field(default_factory=lambda: ["kugou", "youtube"])
     delay: float | None = 10
+    prepend_header: bool = True
     providers_configs: dict[str, dict] = field(default_factory=lambda: {})
 
     @classmethod

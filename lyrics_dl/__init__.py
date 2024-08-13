@@ -51,6 +51,10 @@ class LyricsDl:
 
             if lyrics:
                 self.logger.info(f"[{provider.name}] Found lyrics!")
+
+                if self.config.prepend_header:
+                    lyrics = f"[re:lyrics-dl:{provider.name}]\n\n{lyrics}"
+
                 return lyrics
 
             self.logger.info(f"[{provider.name}] No lyrics was found!")

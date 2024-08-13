@@ -118,6 +118,7 @@ As an example, to enable the `musixmatch` provider, you'll need to [acquire a Mu
 [providers]
 order = ["musixmatch", "kugou"]
 delay = 10  # Seconds to wait between searches
+prepend_header = true  # Prepend lyrics-dl's & provider's header to keep track of lyrics source
 
 [providers.musixmatch]
 token = "YOUR_TOKEN"
