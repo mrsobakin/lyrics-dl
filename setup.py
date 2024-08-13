@@ -9,7 +9,7 @@ setup(
         "lyrics_dl.providers",
     ],
     entry_points={
-        'console_scripts': ['lyrics-dl=lyrics_dl:__main__'],
+        'console_scripts': ['lyrics-dl=lyrics_dl.main:main'],
     },
     install_requires=[
         "httpx>=0.24.1",
