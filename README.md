@@ -27,7 +27,7 @@ You can use `lyrics-dl` both as a CLI tool and as a Python module.
 ### CLI Usage
 
 ```bash
-python3 -m lyrics_dl [-h] [-c CONFIG] [-e EXTENSIONS] [-f] path
+lyrics-dl [-h] [-c CONFIG] [-e EXTENSIONS] [-f] path
 ```
 
 #### Positional Arguments:
@@ -106,11 +106,11 @@ For more detailed information on the usage of the `LyricsDl` class, `Song` class
 
 ## Configuration
 
-The configuration file is in TOML format and can be specified using the `-c` flag when running `lyrics-dl`. To create a custom configuration, follow these steps:
+By default, lyrics-dl searches for the configuration file at `$XDG_CONFIG_HOME/lyrics-dl/config.toml`. You can specify custom config location using `-c` flag.
 
-1. Create the configuration file (`config.toml`).
-2. Define the global provider parameters (for example, order) under `[providers]` section.
-3. To change provider-specific configuration, add a `[providers.provider_name]` section and set the required parameters under it.
+The configuration is using the TOML format.
+Global provider parameters (for example, services order) are defined under the `[providers]` section.
+To change provider-specific configuration, add a `[providers.provider_name]` section and set the required parameters under it.
 
 As an example, to enable the `musixmatch` provider, you'll need to [acquire a Musixmatch token](https://web.archive.org/web/20230831151006/https://spicetify.app/docs/faq/#sometimes-popup-lyrics-andor-lyrics-plus-seem-to-not-work) and create a config like this:
 
